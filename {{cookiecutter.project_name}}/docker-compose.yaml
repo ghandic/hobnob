@@ -1,0 +1,12 @@
+version: "2"
+services:
+    {{cookiecutter.project_name}}:
+        build: .
+        image: challisa/{{cookiecutter.project_name}}
+        container_name: {{cookiecutter.project_name}}
+        ports:
+            - 8000:8000
+        volumes:
+            - .:/opt/working
+            - ~/.gitconfig:/etc/gitconfig
+        entrypoint: sleep 50000

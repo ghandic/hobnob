@@ -1,0 +1,40 @@
+image: python:3.9
+
+before_script:
+  - pip install poetry
+  - poetry install
+
+test-package:
+  stage: test
+  script:
+    - poetry run poe test
+
+test-docs:
+  stage: test
+  script:
+  - poetry run mkdocs build --strict --verbose --site-dir test
+  artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_BUILD_REF_NAME}"
+    paths:
+      - test
+  except:
+  - main
+
+deploy-package:
+  stage: deploy
+  script:
+    - poetry build
+  artifacts:
+    name: "${CI_PROJECT_NAME}_${CI_BUILD_REF_NAME}"
+    paths:
+      - dist/*.whl
+
+deploy-docs:
+  stage: deploy
+  script:
+    - poetry run mkdocs build --strict --verbose
+  artifacts:
+    paths:
+      - public
+  only:
+    - main

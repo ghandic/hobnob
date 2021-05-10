@@ -1,0 +1,69 @@
+site_name: "{{cookiecutter.project_name}}"
+site_description: "{{cookiecutter.description}}"
+{%- if cookiecutter.git_service == "gitlab" -%}
+site_url: "https://{{cookiecutter.repo_author}}.gitlab.io/{{cookiecutter.project_name}}"
+repo_url: "https://gitlab.com/{{cookiecutter.repo_author}}/{{cookiecutter.project_name}}"
+{%- elif cookiecutter.git_service == "github" -%}
+site_url: "https://{{cookiecutter.repo_author}}.github.io/{{cookiecutter.project_name}}"
+repo_url: "https://github.com/{{cookiecutter.repo_author}}/{{cookiecutter.project_name}}"
+{% endif %}
+repo_name: "{{cookiecutter.repo_author}}/{{cookiecutter.project_name}}"
+
+nav:
+  - Getting Started: index.md
+  - Features: features.md
+  - Tutorial - User Guide:
+    - Tutorial - User Guide - Intro: user-guide/intro.md
+    - First Steps: user-guide/first-steps.md
+  - Alternatives, Inspiration and Comparisons: alternatives.md
+  - Development - Contributing: contributing.md
+  - Code of Conduct: code-of-conduct.md
+  - Release Notes: release-notes.md
+  
+theme:
+  name: material
+  custom_dir: docs/overrides
+  # logo: assets/imgs/index.png
+  # favicon: assets/imgs/index.png
+  palette:
+    scheme: youtube
+
+extra_css:
+  - assets/css/styles.css
+
+extra_javascript:
+  - assets/js/theme.js
+
+markdown_extensions:
+  - admonition
+  - codehilite:
+      guess_lang: false
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.tabbed
+  - toc:
+      permalink: "¤"
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          setup_commands:
+            - import sys
+            - sys.path.append("src")
+          rendering:
+            show_root_heading: no
+            show_if_no_docstring: no
+      watch:
+        - src/{{cookiecutter.project_name}}
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/{{cookiecutter.repo_author}}

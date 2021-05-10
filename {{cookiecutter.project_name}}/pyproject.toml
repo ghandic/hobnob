@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 # More options here: https://python-poetry.org/docs/pyproject/
-name = "parallel"
+name = "{{cookiecutter.project_name}}"
 version = "0.1.0"
 description = ""
 authors = ["Andy Challis <andrewchallis@hotmail.co.uk>"]
@@ -16,7 +16,7 @@ documentation = ""
 keywords = [""]
 classifiers = [""]
 packages = [
-    { include = "parallel", from = "src" },
+    { include = "{{cookiecutter.project_name}}", from = "src" },
 ]
 
 [tool.poetry.dependencies]
@@ -37,7 +37,9 @@ pre-commit = "2.12.1"
 poethepoet = "0.10.0"
 flakehell = "^0.9.0"
 safety = "^1.10.3"
-
+mkdocs-material = "^7.1.4"
+mkdocstrings = "^0.15.0"
+mkdocs = "^1.1.2"
 
 [tool.poe.tasks]
 # More options here: https://github.com/nat-n/poethepoet
@@ -45,12 +47,19 @@ _autoflake = "autoflake -r src --recursive --in-place --remove-all-unused-import
 _isort = "isort src"
 _black = "black src"
 _flake8 = "flakehell lint src"
+
 _test_coverage = "pytest --cov=src --cov-report html"
 _test_docstrings = "interrogate -c pyproject.toml src"
 
+_init_git = "git init"
+_init_precommit = "pre-commit install"
+_init_gitmoji = "gitmoji -i"
+
+init = ["_init_git", "_init_precommit", "_init_gitmoji"]
 lint = ["_autoflake", "_isort", "_black", "_flake8"]
+test = ["_test_coverage", "_test_docstrings"]
+docs = "mkdocs serve --dev-addr 0.0.0.0:8000"
 clean = """
-# Multiline commands including comments work too. Unescaped whitespace is ignored.
 rm -rf .coverage
        .mypy_cache
        .pytest_cache
@@ -58,7 +67,6 @@ rm -rf .coverage
        ./**/__pycache__
        htmlcov
 """
-test = ["_test_coverage", "_test_docstrings"]
 
 
 [tool.black]
