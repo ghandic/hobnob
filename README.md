@@ -3,7 +3,7 @@
 ## Initial project setup
 
 ```bash
-cookiecutter <URL>
+cookiecutter https://github.com/ghandic/hobnob
 cd <project_name>
 docker-compose up --build -d
 docker exec -it <project_name> bash
