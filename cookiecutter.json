@@ -2,5 +2,5 @@
     "project_name": "parallel",
     "repo_author": "ghandic",
     "description": "...",
-    "git_service": ["gitlab", "github"]
+    "git_service": ["github", "gitlab"]
 }
